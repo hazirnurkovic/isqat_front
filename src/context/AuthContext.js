@@ -2,52 +2,66 @@ import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import {BASE_URL} from '../config'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
 
     const [userInfo, setUserInfo] = useState({});
-    const [isLoading, setIsLoadin] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [splashLoading, setSplashLoading] = useState(false);
 
+
     const register = (username, email, password) => {
-        setIsLoadin(true);
+        setIsLoading(true);
         axios
             .post(`${BASE_URL}/register`, {
                 username, 
                 email, 
                 password, 
+            }, {
+                headers: {
+                    'Content-Type': 'application/json', 
+                    Accept : 'application/json'
+                }
             })
             .then(res => {
                 let userInfo = res.data;
                 setUserInfo(userInfo);
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-                setIsLoadin(false);
+                setIsLoading(false);
                 console.log(userInfo);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
             })
             .catch(e => {
-                setIsLoadin(false);
+                setIsLoading(false);
                 console.log(`Error: ${e}`);
             });
     };
 
     const login = (email, password) => {
-        setIsLoadin(true);
+        setIsLoading(true);
         axios
             .post(`${BASE_URL}/login`, {
                 email,
                 password
+            },{
+                headers: {
+                    'Content-Type': 'application/json', 
+                    Accept : 'application/json'
+                }
             })
             .then(res => {
                 let userInfo = res.data;
                 setUserInfo(userInfo);
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-                setIsLoadin(false);
+                setIsLoading(false);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
             })
             .catch(e => {
-                setIsLoadin(false);
-                console.log(`Error ${e}`);
+                setIsLoading(false);
+                alert(e.response.data.message);
             });
     };
 
@@ -61,6 +75,7 @@ export const AuthProvider = ({children}) => {
                 setUserInfo(userInfo);
             }
             setSplashLoading(false);
+            console.log(JSON.stringify(userInfo))
         } catch (e) {
             setSplashLoading(false);
             console.log(`Error with isLoggedIn : ${e}`);

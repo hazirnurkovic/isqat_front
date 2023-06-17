@@ -7,8 +7,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 const LoginScreen = () => {
     const navigation = useNavigation();
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const {isLoading, login} = useContext(AuthContext);
     return (
@@ -38,7 +38,7 @@ const LoginScreen = () => {
                     onChangeText={text => setPassword(text)}
                 />
                 <MyButton
-                    button_title="Login"
+                    button_title="LOGUJ SE"
                     styling={styles.button}
                     onPress={() => {
                         login(email, password)

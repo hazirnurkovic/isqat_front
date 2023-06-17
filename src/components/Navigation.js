@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { Text, View } from "react-native";
 import LoginScreen from "../screen/LoginScreen";
 import RegisterScreen from "../screen/RegisterScreen";
+import HomeScreen from "../screen/HomeScreen";
 import { AuthContext } from "../context/AuthContext";
 import SplashScreen from "../screen/SplashScreen";
 
@@ -24,7 +25,7 @@ const Navigation = () => {
               options={{headerShown: false}}            
             />
           ) : 
-          userInfo.remember_token ? (
+          userInfo.token ? (
             <Stack.Screen 
               name="Home" 
               component={HomeScreen} 
