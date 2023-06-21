@@ -5,6 +5,7 @@ import { Text, View } from "react-native";
 import LoginScreen from "../screen/LoginScreen";
 import RegisterScreen from "../screen/RegisterScreen";
 import HomeScreen from "../screen/HomeScreen";
+import ChallengesScreen from "../screen/ChallengesScreen";
 import { AuthContext } from "../context/AuthContext";
 import SplashScreen from "../screen/SplashScreen";
 
@@ -26,11 +27,20 @@ const Navigation = () => {
             />
           ) : 
           userInfo.token ? (
-            <Stack.Screen 
-              name="Home" 
-              component={HomeScreen} 
-              options={{headerShown: false}}
-            />
+            <>
+              <Stack.Screen 
+                name="Home" 
+                component={HomeScreen} 
+                options={{headerShown: false}}
+              />
+
+              <Stack.Screen 
+                  name="Challenges" 
+                  component={ChallengesScreen} 
+                  options={{headerShown: false}}
+              />
+            </>
+
           ) : 
           (
             <>
