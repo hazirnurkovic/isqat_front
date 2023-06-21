@@ -12,6 +12,7 @@ export const AuthProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [splashLoading, setSplashLoading] = useState(false);
 
+    
 
     const register = (username, email, password) => {
         setIsLoading(true);
@@ -82,6 +83,28 @@ export const AuthProvider = ({children}) => {
         }
     };
 
+    const getUserChallenges = () => {
+        return new Promise((resolve, reject) => {
+          axios.post(
+            `${BASE_URL}/getUserChallenge`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${userInfo.token}`
+              }
+            }
+          )
+            .then(res => {
+              let response = res.data;
+              resolve(response);
+            })
+            .catch(e => {
+                console.log(e.response.data.message);
+              reject(e);
+            });
+        });
+      };
+
     useEffect(() => {
         isLoggedIn();
     }, []);
@@ -94,7 +117,7 @@ export const AuthProvider = ({children}) => {
                 splashLoading,
                 register,
                 login,
-
+                getUserChallenges
             }}
         >
             {children}

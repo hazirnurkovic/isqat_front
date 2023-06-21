@@ -1,10 +1,25 @@
-import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useContext } from "react";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View } from "react-native";
+import { AuthContext } from "../context/AuthContext";
 
 const HomeScreen = () => {
+    const navigation = useNavigation();
+    const {getUserChallenges} = useContext(AuthContext);
+
+    const handlePress = async () => {
+        try {
+          const response = await getUserChallenges();
+          console.log(response);
+          navigation.navigate("Challenges", {challenge: response});
+        } catch (e) {
+          alert(e.response.data.message);
+        }
+      };
+
     return (
         <View style={styles.container}>
             
@@ -16,7 +31,10 @@ const HomeScreen = () => {
             </View>
 
             <View style={styles.logo_image_view}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={handlePress}
+                
+                >
                     <Image 
                         source={require("../assets/logo.jpg")}
                         style={styles.logo}
