@@ -6,6 +6,7 @@ import LoginScreen from "../screen/LoginScreen";
 import RegisterScreen from "../screen/RegisterScreen";
 import HomeScreen from "../screen/HomeScreen";
 import ChallengesScreen from "../screen/ChallengesScreen";
+import ChallengeScreen from "../screen/ChallengeScreen";
 import { AuthContext } from "../context/AuthContext";
 import SplashScreen from "../screen/SplashScreen";
 
@@ -37,6 +38,12 @@ const Navigation = () => {
               <Stack.Screen 
                   name="Challenges" 
                   component={ChallengesScreen} 
+                  options={{headerShown: false}}
+              />
+
+              <Stack.Screen 
+                  name="Challenge" 
+                  component={ChallengeScreen} 
                   options={{headerShown: false}}
               />
             </>

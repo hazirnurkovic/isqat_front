@@ -74,6 +74,8 @@ export const AuthProvider = ({children}) => {
 
             if (userInfo) {
                 setUserInfo(userInfo);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
+                console.log(userInfo.token)
             }
             setSplashLoading(false);
             console.log(JSON.stringify(userInfo))
@@ -86,7 +88,7 @@ export const AuthProvider = ({children}) => {
     const getUserChallenges = () => {
         return new Promise((resolve, reject) => {
           axios.post(
-            `${BASE_URL}/getUserChallenge`,
+            `${BASE_URL}/getUserChallenges`,
             {},
             {
               headers: {
@@ -100,10 +102,31 @@ export const AuthProvider = ({children}) => {
             })
             .catch(e => {
                 console.log(e.response.data.message);
-              reject(e);
+                reject(e);
             });
         });
       };
+
+    const getUserChallenge = (id) => {
+        return new Promise((resolve, reject) => {
+            axios.get(`${BASE_URL}/challenges/${id}`,
+            {
+                headers: {
+                  Authorization: `Bearer ${userInfo.token}`
+                }
+            }
+            )
+              .then(res => {
+                let response = res.data;
+                resolve(response);
+                console.log(response);
+              })
+              .catch(e => {
+                console.log(JSON.stringify(e.response.data.message));
+                reject(e);
+              });
+        });
+    }
 
     useEffect(() => {
         isLoggedIn();
@@ -117,7 +140,8 @@ export const AuthProvider = ({children}) => {
                 splashLoading,
                 register,
                 login,
-                getUserChallenges
+                getUserChallenges,
+                getUserChallenge
             }}
         >
             {children}
