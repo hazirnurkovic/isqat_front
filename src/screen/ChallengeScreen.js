@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
+import ActionButton from "../components/ActionButton";
 
 const ChallengeScreen = ({route}) => {
     const {challenge} = route.params;
@@ -31,7 +32,7 @@ const ChallengeScreen = ({route}) => {
                     </Text>
 
                     <Text 
-                        style={{...styles.text , transform: [{rotate: '-35deg'}]}}>
+                        style={{...styles.text , transform: [{rotate: '-15deg'}]}}>
                         {challenge.id}
                     </Text>
 
@@ -51,7 +52,29 @@ const ChallengeScreen = ({route}) => {
             </View>
            
            <View style={styles.challenge_container}>
-                <Text>aaa</Text>
+                <View style={styles.challenge}>
+                    <ScrollView>
+                        <Text>
+                            {challenge.value}
+                        </Text>
+                    </ScrollView>
+                </View>
+           </View>
+
+           <View style={styles.bottom_container}>
+                <View style={styles.bottom_buttons}>
+                    
+                <ActionButton 
+                        type = {"1"}
+                        bcolor={"#fab400"}
+                    />
+
+                    <ActionButton 
+                        type = {"2"}
+                        bcolor = {"#54ae70"}
+                    />
+
+                </View>
            </View>
            
         </View>
@@ -65,7 +88,7 @@ const styles = StyleSheet.create({
     },
 
     top: {
-        flex: 0.5,
+        flex: 1,
         flexDirection: "row",
         justifyContent: 'space-between'
     },
@@ -126,11 +149,37 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#54ae70",
         width: "80%",
-        padding: 15
+        padding: 15,
+        borderRadius: 15
     },
 
     challenge_container: {
-        flex: 3,
+        flex: 3, 
+        justifyContent: "flex-start",
+        alignItems: "center",
+    },
+
+    challenge: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: "80%",
+        padding: 15,
+        borderRadius: 15,
+        backgroundColor: "#fab400",
+        maxHeight: "80%",
+        minHeight: "60%"
+    },
+
+    bottom_container: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center"
+    },
+
+    bottom_buttons: {
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-evenly"
     }
 
 });

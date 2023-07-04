@@ -22,6 +22,7 @@ const ChallengesScreen = ({route}) => {
           alert(e.response.data.message);
         }
       };
+      
     return (
         <View style={styles.container}> 
             <View style={styles.wrapper}>
