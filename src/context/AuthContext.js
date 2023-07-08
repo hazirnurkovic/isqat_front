@@ -73,9 +73,26 @@ export const AuthProvider = ({children}) => {
             userInfo = JSON.parse(userInfo);
 
             if (userInfo) {
-                setUserInfo(userInfo);
+
                 axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
                 console.log(userInfo.token)
+
+                const response = await axios.post(`${BASE_URL}/verify_token`, {
+                    token: userInfo.token
+                  });
+                  
+                  if (response.data.valid) 
+                  {
+                    setUserInfo(userInfo);
+                    console.log('Token is valid');
+                  } 
+                  else {
+                    setUserInfo({});
+                    await AsyncStorage.removeItem('userInfo');
+                    console.log('Token is invalid');
+
+                  }
+            
             }
             setSplashLoading(false);
             console.log(JSON.stringify(userInfo))

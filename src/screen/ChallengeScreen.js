@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
 import ActionButton from "../components/ActionButton";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const ChallengeScreen = ({route}) => {
+
+    const navigation = useNavigation();
     const {challenge} = route.params;
+    const {getUserChallenges} = useContext(AuthContext);
+
+    const handlePress = async () => {
+        try {
+          const response = await getUserChallenges();
+          navigation.navigate("Challenges", {challenge: response});
+        } catch (e) {
+          alert(e.response.data.message);
+          navigation.navigate("Login");
+        }
+      };
+
     return (
         <View style={styles.container}>
 
             <View style={styles.top}>
 
                 <View style={styles.back_logo}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handlePress}
+                    >
                         <Image 
                             source={require("../assets/logo.jpg")}
                             style={styles.logo}
@@ -28,7 +46,7 @@ const ChallengeScreen = ({route}) => {
                         marginBottom: 15,
                         transform: [{rotate: '7deg'}],
                         }}>
-                            DAY
+                            DAN
                     </Text>
 
                     <Text 

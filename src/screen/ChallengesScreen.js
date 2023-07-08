@@ -19,7 +19,7 @@ const ChallengesScreen = ({route}) => {
           console.log(response);
           navigation.navigate("Challenge", {challenge: response});
         } catch (e) {
-          alert(e.response.data.message);
+          alert(JSON.stringify(e.response.data.message));
         }
       };
       
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     flat_list: {
         flex: 1,
         backgroundColor: "#fdb200",
-        paddingTop: 40,
+        paddingVertical: 40,
+        paddingHorizontal: 20,
         marginTop: -20,
     }
 

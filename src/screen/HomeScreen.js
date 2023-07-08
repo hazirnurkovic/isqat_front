@@ -13,10 +13,10 @@ const HomeScreen = () => {
     const handlePress = async () => {
         try {
           const response = await getUserChallenges();
-          console.log(response);
           navigation.navigate("Challenges", {challenge: response});
         } catch (e) {
           alert(e.response.data.message);
+          navigation.navigate("Login");
         }
       };
 
