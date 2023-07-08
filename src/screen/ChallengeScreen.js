@@ -63,7 +63,7 @@ const ChallengeScreen = ({route}) => {
 
             <View style={styles.title_container}>
                 <View style={styles.title}>
-                    <Text>
+                    <Text style={styles.title_text}>
                         {challenge.title}
                     </Text>
                 </View>
@@ -169,6 +169,10 @@ const styles = StyleSheet.create({
         width: "80%",
         padding: 15,
         borderRadius: 15
+    },
+
+    title_text : {
+        fontWeight: "600"
     },
 
     challenge_container: {

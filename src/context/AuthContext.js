@@ -66,6 +66,25 @@ export const AuthProvider = ({children}) => {
             });
     };
 
+    const logout = () => {
+        axios
+            .post(`${BASE_URL}/logout`, 
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`
+                }
+            }
+            )
+            .then(response => {
+                setUserInfo({});
+                AsyncStorage.removeItem('userInfo')
+            })
+            .catch(error => {
+                console.error(error);
+              });
+    }
+
     const isLoggedIn = async () => {
         try {
             setSplashLoading(true);
@@ -145,6 +164,7 @@ export const AuthProvider = ({children}) => {
         });
     }
 
+
     useEffect(() => {
         isLoggedIn();
     }, []);
@@ -157,6 +177,7 @@ export const AuthProvider = ({children}) => {
                 splashLoading,
                 register,
                 login,
+                logout,
                 getUserChallenges,
                 getUserChallenge
             }}

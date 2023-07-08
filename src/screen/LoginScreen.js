@@ -81,7 +81,9 @@ const styles = StyleSheet.create({
         color: "white"
     },
     button: {
-        backgroundColor: "#fab400"
+        backgroundColor: "#fab400",
+        width: "80%",
+
     },
     link: {
         fontWeight: "bold",
