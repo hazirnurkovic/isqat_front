@@ -164,6 +164,28 @@ export const AuthProvider = ({children}) => {
         });
     }
 
+    const updateUserChallenge = (id) => {
+        return new Promise((resolve, reject)=> {
+            axios.post(`${BASE_URL}/updateUserChallenge`),
+            {
+                id
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`
+                }
+            }
+        }).
+            then(res => {
+                let userInfo = res.data;
+                setUserInfo(userInfo);
+                AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+            })
+            .catch(e => {
+                alert(e.response.data.message);
+            });
+    }
+
 
     useEffect(() => {
         isLoggedIn();

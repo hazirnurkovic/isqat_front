@@ -13,7 +13,8 @@ const ChallengeScreen = ({route}) => {
     const {getUserChallenges} = useContext(AuthContext);
 
     const handlePress = async () => {
-        try {
+        try 
+        {
           const response = await getUserChallenges();
           navigation.navigate("Challenges", {challenge: response});
         } catch (e) {
@@ -21,6 +22,17 @@ const ChallengeScreen = ({route}) => {
           navigation.navigate("Login");
         }
       };
+
+      const handleFinishPress = async () => {
+        try 
+        {
+            
+        } 
+        catch (e) 
+        {
+
+        }
+      }
 
     return (
         <View style={styles.container}>
@@ -88,6 +100,7 @@ const ChallengeScreen = ({route}) => {
                     />
 
                     <ActionButton 
+                        onPress = {handlePress}
                         type = {"2"}
                         bcolor = {"#54ae70"}
                     />
