@@ -5,13 +5,15 @@ import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import { StyleSheet } from "react-native";
 
-const ActionButton = ({type, bcolor}) => {
+const ActionButton = ({type, bcolor, onPress}) => {
     console.log(type)
     return (
         <View style={{ marginHorizontal: 10 }}>
             <View style={{ alignItems: 'center' }}>
                 <View style={{ borderRadius: 50, backgroundColor: bcolor, padding: 10 }}>       
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={onPress}
+                    >
                         {type == 1 ?
                             <FontAwesomeIcon
                                 icon={faRotate}

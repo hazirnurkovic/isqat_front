@@ -14,20 +14,25 @@ export const AuthProvider = ({children}) => {
 
     
 
-    const register = (username, email, password) => {
+    const register = (username, email, password) => 
+    {
         setIsLoading(true);
         axios
-            .post(`${BASE_URL}/register`, {
+            .post(`${BASE_URL}/register`, 
+            {
                 username, 
                 email, 
                 password, 
-            }, {
-                headers: {
+            }, 
+            {
+                headers: 
+                {
                     'Content-Type': 'application/json', 
                     Accept : 'application/json'
                 }
             })
-            .then(res => {
+            .then(res => 
+            {
                 let userInfo = res.data;
                 setUserInfo(userInfo);
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
@@ -35,132 +40,180 @@ export const AuthProvider = ({children}) => {
                 console.log(userInfo);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
             })
-            .catch(e => {
+            .catch(e => 
+            {
                 setIsLoading(false);
                 console.log(`Error: ${e}`);
             });
     };
 
-    const login = (email, password) => {
+    const login = (email, password) => 
+    {
         setIsLoading(true);
         axios
-            .post(`${BASE_URL}/login`, {
+            .post(`${BASE_URL}/login`, 
+            {
                 email,
                 password
-            },{
-                headers: {
+            },
+            {
+                headers: 
+                {
                     'Content-Type': 'application/json', 
                     Accept : 'application/json'
                 }
             })
-            .then(res => {
+            .then(res => 
+            {
                 let userInfo = res.data;
                 setUserInfo(userInfo);
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setIsLoading(false);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
             })
-            .catch(e => {
+            .catch(e => 
+            {
                 setIsLoading(false);
                 alert(e.response.data.message);
             });
     };
 
-    const logout = () => {
+    const logout = () => 
+    {
         axios
             .post(`${BASE_URL}/logout`, 
             {},
             {
-                headers: {
+                headers: 
+                {
                     Authorization: `Bearer ${userInfo.token}`
                 }
-            }
-            )
-            .then(response => {
+            })
+            .then(response => 
+            {
                 setUserInfo({});
                 AsyncStorage.removeItem('userInfo')
             })
-            .catch(error => {
+            .catch(error => 
+            {
                 console.error(error);
-              });
+            });
     }
 
-    const isLoggedIn = async () => {
-        try {
+    const isLoggedIn = async () => 
+    {
+        try 
+        {
             setSplashLoading(true);
             let userInfo = await AsyncStorage.getItem('userInfo');
             userInfo = JSON.parse(userInfo);
 
-            if (userInfo) {
-
+            if (userInfo) 
+            {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
                 console.log(userInfo.token)
 
-                const response = await axios.post(`${BASE_URL}/verify_token`, {
+                const response = await axios.post(`${BASE_URL}/verify_token`, 
+                {
                     token: userInfo.token
-                  });
+                });
                   
                   if (response.data.valid) 
                   {
                     setUserInfo(userInfo);
                     console.log('Token is valid');
                   } 
-                  else {
+                  else 
+                  {
                     setUserInfo({});
                     await AsyncStorage.removeItem('userInfo');
                     console.log('Token is invalid');
-
                   }
             
             }
             setSplashLoading(false);
             console.log(JSON.stringify(userInfo))
-        } catch (e) {
+        } catch (e) 
+        {
             setSplashLoading(false);
             console.log(`Error with isLoggedIn : ${e}`);
         }
     };
 
-    const getUserChallenges = () => {
-        return new Promise((resolve, reject) => {
+    const getUserChallenges = () => 
+    {
+        return new Promise((resolve, reject) => 
+        {
           axios.post(
             `${BASE_URL}/getUserChallenges`,
             {},
             {
-              headers: {
+              headers: 
+              {
                 Authorization: `Bearer ${userInfo.token}`
               }
-            }
-          )
-            .then(res => {
+            })
+            .then(res => 
+            {
               let response = res.data;
               resolve(response);
             })
-            .catch(e => {
+            .catch(e => 
+            {
                 console.log(e.response.data.message);
                 reject(e);
             });
         });
       };
 
-    const getUserChallenge = (id) => {
-        return new Promise((resolve, reject) => {
+    const getUserChallenge = (id) => 
+    {
+        return new Promise((resolve, reject) => 
+        {
             axios.get(`${BASE_URL}/challenges/${id}`,
             {
-                headers: {
+                headers: 
+                {
                   Authorization: `Bearer ${userInfo.token}`
                 }
+            })
+              .then(res => 
+                {
+                    let response = res.data;
+                    resolve(response);
+                    console.log(response);
+                })
+                .catch(e => 
+                {
+                    console.log(JSON.stringify(e.response.data.message));
+                    reject(e);
+                });
+        });
+    }
+
+    const updateUserChallenge = (id) => 
+    {
+        axios.post(`${BASE_URL}/updateUserChallenge`, 
+        {
+            challenge_id: id
+        },
+        {
+            headers: 
+            {
+                Authorization: `Bearer ${userInfo.token}`
             }
-            )
-              .then(res => {
-                let response = res.data;
-                resolve(response);
-                console.log(response);
-              })
-              .catch(e => {
-                console.log(JSON.stringify(e.response.data.message));
-                reject(e);
-              });
+        })
+        .then(response => 
+        {
+            let userInfo = response.data;
+            setUserInfo(userInfo);
+            AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+            alert(response.data.message);
+        })
+        .catch(e => 
+        {
+            alert(e);
+            console.log(e);
         });
     }
 
@@ -179,7 +232,8 @@ export const AuthProvider = ({children}) => {
                 login,
                 logout,
                 getUserChallenges,
-                getUserChallenge
+                getUserChallenge,
+                updateUserChallenge
             }}
         >
             {children}
