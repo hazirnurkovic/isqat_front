@@ -12,7 +12,7 @@ const ChallengeButtons = ({onPress, text, id, currentChallenge, disabled_propery
 
         if (id < currentChallenge) {
           return {
-            backgroundColor: "lightgrey",
+            backgroundColor: "#54ae70",
             disabled: false
           };
         } 

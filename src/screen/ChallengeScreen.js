@@ -10,7 +10,7 @@ const ChallengeScreen = ({route}) => {
 
     const navigation = useNavigation();
     const {challenge} = route.params;
-    const {getUserChallenges} = useContext(AuthContext);
+    const {getUserChallenges, updateUserChallenge} = useContext(AuthContext);
 
     const handlePress = async () => {
         try 
@@ -23,14 +23,17 @@ const ChallengeScreen = ({route}) => {
         }
       };
 
-      const handleFinishPress = async () => {
+      const handleFinishPress = async (id) => 
+      {
         try 
         {
-            
+            await updateUserChallenge(id);  
+            const response = await getUserChallenges();
+            navigation.navigate("Challenges", {challenge: response});
         } 
         catch (e) 
         {
-
+            alert(e.response.data.message);
         }
       }
 
@@ -83,7 +86,7 @@ const ChallengeScreen = ({route}) => {
            
            <View style={styles.challenge_container}>
                 <View style={styles.challenge}>
-                    <ScrollView>
+                    <ScrollView contentContainerStyle={styles.scroll_view}>
                         <Text>
                             {challenge.value}
                         </Text>
@@ -94,13 +97,13 @@ const ChallengeScreen = ({route}) => {
            <View style={styles.bottom_container}>
                 <View style={styles.bottom_buttons}>
                     
-                <ActionButton 
+                    <ActionButton 
                         type = {"1"}
                         bcolor={"#fab400"}
                     />
 
                     <ActionButton 
-                        onPress = {handlePress}
+                        onPress = {() => handleFinishPress(challenge.id)}
                         type = {"2"}
                         bcolor = {"#54ae70"}
                     />
@@ -203,6 +206,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#fab400",
         maxHeight: "80%",
         minHeight: "60%"
+    },
+
+    scroll_view: {
+        flexGrow: 1,
+        justifyContent: "center",
+        alignItems: "center"
     },
 
     bottom_container: {
