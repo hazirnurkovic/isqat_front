@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
@@ -9,8 +9,10 @@ import { useNavigation } from "@react-navigation/native";
 const ChallengeScreen = ({route}) => {
 
     const navigation = useNavigation();
-    const {challenge} = route.params;
+    const {challenge, alternative_challenge} = route.params;
     const {getUserChallenges, updateUserChallenge} = useContext(AuthContext);
+
+    const [showAlternative, setShowAlternative] = useState(false);
 
     const handlePress = async () => {
         try 
@@ -35,6 +37,11 @@ const ChallengeScreen = ({route}) => {
         {
             alert(e.response.data.message);
         }
+      }
+
+      const handleShowAlternative = () =>
+      {
+        setShowAlternative(!showAlternative);
       }
 
     return (
@@ -79,7 +86,7 @@ const ChallengeScreen = ({route}) => {
             <View style={styles.title_container}>
                 <View style={styles.title}>
                     <Text style={styles.title_text}>
-                        {challenge.title}
+                        {showAlternative ? alternative_challenge.title : challenge.title}
                     </Text>
                 </View>
             </View>
@@ -88,7 +95,7 @@ const ChallengeScreen = ({route}) => {
                 <View style={styles.challenge}>
                     <ScrollView contentContainerStyle={styles.scroll_view}>
                         <Text>
-                            {challenge.value}
+                            {showAlternative ? alternative_challenge.value : challenge.value}
                         </Text>
                     </ScrollView>
                 </View>
@@ -98,6 +105,7 @@ const ChallengeScreen = ({route}) => {
                 <View style={styles.bottom_buttons}>
                     
                     <ActionButton 
+                        onPress = {() => handleShowAlternative()}
                         type = {"1"}
                         bcolor={"#fab400"}
                     />

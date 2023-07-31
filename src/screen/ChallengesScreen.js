@@ -19,7 +19,11 @@ const ChallengesScreen = ({route}) => {
         try {
           const response = await getUserChallenge(day);
           console.log(response);
-          navigation.navigate("Challenge", {challenge: response});
+          navigation.navigate("Challenge", 
+          {
+            challenge: response.challenge,
+            alternative_challenge: response.alternative_challenge
+          });
         } catch (e) {
           alert(JSON.stringify(e.response.data.message));
         }

@@ -170,7 +170,7 @@ export const AuthProvider = ({children}) => {
     {
         return new Promise((resolve, reject) => 
         {
-            axios.get(`${BASE_URL}/challenges/${id}`,
+            axios.get(`${BASE_URL}/getUserChallenge/${id}`,
             {
                 headers: 
                 {
