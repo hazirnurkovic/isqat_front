@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     },
 
     flat_list: {
-        flex: 1,
         backgroundColor: "#fdb200",
         paddingVertical: 40,
         paddingHorizontal: 20,
