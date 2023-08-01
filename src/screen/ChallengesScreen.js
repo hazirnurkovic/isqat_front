@@ -19,7 +19,11 @@ const ChallengesScreen = ({route}) => {
         try {
           const response = await getUserChallenge(day);
           console.log(response);
-          navigation.navigate("Challenge", {challenge: response});
+          navigation.navigate("Challenge", 
+          {
+            challenge: response.challenge,
+            alternative_challenge: response.alternative_challenge
+          });
         } catch (e) {
           alert(JSON.stringify(e.response.data.message));
         }
@@ -87,7 +91,6 @@ const styles = StyleSheet.create({
     },
 
     flat_list: {
-        flex: 1,
         backgroundColor: "#fdb200",
         paddingVertical: 40,
         paddingHorizontal: 20,

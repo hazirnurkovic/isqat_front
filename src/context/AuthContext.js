@@ -3,6 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import {BASE_URL} from '../config'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 export const AuthContext = createContext();
 
@@ -170,7 +171,7 @@ export const AuthProvider = ({children}) => {
     {
         return new Promise((resolve, reject) => 
         {
-            axios.get(`${BASE_URL}/challenges/${id}`,
+            axios.get(`${BASE_URL}/getUserChallenge/${id}`,
             {
                 headers: 
                 {
@@ -208,7 +209,10 @@ export const AuthProvider = ({children}) => {
             let userInfo = response.data;
             setUserInfo(userInfo);
             AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-            alert(response.data.message);
+            Alert.alert(
+                'Bravo!',
+                response.data.message
+                );
         })
         .catch(e => 
         {
