@@ -6,7 +6,6 @@ import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import { StyleSheet } from "react-native";
 
 const ActionButton = ({type, bcolor, onPress}) => {
-    console.log(type)
     return (
         <View style={{ marginHorizontal: 10 }}>
             <View style={{ alignItems: 'center' }}>

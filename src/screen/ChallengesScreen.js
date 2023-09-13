@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Text } from "react-native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import { View, FlatList } from "react-native";
 import ChallengeButtons from "../components/ChallengeButtons";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-web";
+import { useNavigation } from "@react-navigation/native";;
 import MyButton from "../components/MyButton";
 
 const ChallengesScreen = ({route}) => {
@@ -18,7 +17,6 @@ const ChallengesScreen = ({route}) => {
     const handlePress = async (day) => {
         try {
           const response = await getUserChallenge(day);
-          console.log(response);
           navigation.navigate("Challenge", 
           {
             challenge: response.challenge,
@@ -31,6 +29,18 @@ const ChallengesScreen = ({route}) => {
       
     return (
         <>
+        <View style = {styles.top}>
+            <View style={styles.back_logo}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Home')}
+                >
+                    <Image 
+                        source={require("../assets/logo.jpg")}
+                        style={styles.logo}
+                    />
+                </TouchableOpacity>
+            </View>
+        </View>
         <View style={styles.container}> 
             <View style={styles.wrapper}>
                 
@@ -68,6 +78,21 @@ const ChallengesScreen = ({route}) => {
 };
 
 const styles = StyleSheet.create({
+
+    top: {
+        width: "100%", 
+        backgroundColor: '#E4E4E3',
+    },
+
+    back_logo: {
+        height: 80,
+        width: 80,
+    },
+
+    logo: {
+        height: 80,
+        width: 80,
+    },
 
     container: {
         flex: 1,

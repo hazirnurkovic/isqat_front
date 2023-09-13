@@ -10,14 +10,14 @@ const ChallengeScreen = ({route}) => {
 
     const navigation = useNavigation();
     const {challenge, alternative_challenge} = route.params;
-    const {getUserChallenges, updateUserChallenge} = useContext(AuthContext);
+    const {checkChallengesAvailability, updateUserChallenge} = useContext(AuthContext);
 
     const [showAlternative, setShowAlternative] = useState(false);
 
     const handlePress = async () => {
         try 
         {
-          const response = await getUserChallenges();
+          const response = await checkChallengesAvailability();
           navigation.navigate("Challenges", {challenge: response});
         } catch (e) {
           alert(e.response.data.message);
@@ -30,7 +30,7 @@ const ChallengeScreen = ({route}) => {
         try 
         {
             await updateUserChallenge(id);  
-            const response = await getUserChallenges();
+            const response = await checkChallengesAvailability();
             navigation.navigate("Challenges", {challenge: response});
         } 
         catch (e) 

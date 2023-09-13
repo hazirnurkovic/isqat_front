@@ -8,11 +8,11 @@ import { AuthContext } from "../context/AuthContext";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const {getUserChallenges} = useContext(AuthContext);
+    const {checkChallengesAvailability} = useContext(AuthContext);
 
     const handlePress = async () => {
         try {
-          const response = await getUserChallenges();
+          const response = await checkChallengesAvailability();
           navigation.navigate("Challenges", {challenge: response});
         } catch (e) {
           alert(e.response.data.message);

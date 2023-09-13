@@ -29,7 +29,8 @@ export const AuthProvider = ({children}) => {
                 headers: 
                 {
                     'Content-Type': 'application/json', 
-                    Accept : 'application/json'
+                    Accept : 'application/json',
+                    'Cache-Control': 'no-cache',
                 }
             })
             .then(res => 
@@ -38,7 +39,6 @@ export const AuthProvider = ({children}) => {
                 setUserInfo(userInfo);
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setIsLoading(false);
-                console.log(userInfo);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
             })
             .catch(e => 
@@ -61,7 +61,8 @@ export const AuthProvider = ({children}) => {
                 headers: 
                 {
                     'Content-Type': 'application/json', 
-                    Accept : 'application/json'
+                    Accept : 'application/json',
+                    'Cache-Control': 'no-cache',
                 }
             })
             .then(res => 
@@ -87,7 +88,8 @@ export const AuthProvider = ({children}) => {
             {
                 headers: 
                 {
-                    Authorization: `Bearer ${userInfo.token}`
+                    Authorization: `Bearer ${userInfo.token}`,
+                    'Cache-Control': 'no-cache',
                 }
             })
             .then(response => 
@@ -112,7 +114,6 @@ export const AuthProvider = ({children}) => {
             if (userInfo) 
             {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.stringify(userInfo.token)}`
-                console.log(userInfo.token)
 
                 const response = await axios.post(`${BASE_URL}/verify_token`, 
                 {
@@ -122,7 +123,6 @@ export const AuthProvider = ({children}) => {
                   if (response.data.valid) 
                   {
                     setUserInfo(userInfo);
-                    console.log('Token is valid');
                   } 
                   else 
                   {
@@ -133,7 +133,6 @@ export const AuthProvider = ({children}) => {
             
             }
             setSplashLoading(false);
-            console.log(JSON.stringify(userInfo))
         } catch (e) 
         {
             setSplashLoading(false);
@@ -141,7 +140,7 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    const getUserChallenges = () => 
+    const checkChallengesAvailability = () => 
     {
         return new Promise((resolve, reject) => 
         {
@@ -151,7 +150,8 @@ export const AuthProvider = ({children}) => {
             {
               headers: 
               {
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.token}`,
+                'Cache-Control': 'no-cache',
               }
             })
             .then(res => 
@@ -161,7 +161,6 @@ export const AuthProvider = ({children}) => {
             })
             .catch(e => 
             {
-                console.log(e.response.data.message);
                 reject(e);
             });
         });
@@ -175,14 +174,14 @@ export const AuthProvider = ({children}) => {
             {
                 headers: 
                 {
-                  Authorization: `Bearer ${userInfo.token}`
+                  Authorization: `Bearer ${userInfo.token}`,
+                  'Cache-Control': 'no-cache',
                 }
             })
               .then(res => 
                 {
                     let response = res.data;
                     resolve(response);
-                    console.log(response);
                 })
                 .catch(e => 
                 {
@@ -192,34 +191,31 @@ export const AuthProvider = ({children}) => {
         });
     }
 
-    const updateUserChallenge = (id) => 
-    {
-        axios.post(`${BASE_URL}/updateUserChallenge`, 
-        {
-            challenge_id: id
-        },
-        {
-            headers: 
+    const updateUserChallenge = async (id) => {
+        try {
+          const response = await axios.post(
+            `${BASE_URL}/updateUserChallenge`,
             {
-                Authorization: `Bearer ${userInfo.token}`
+              challenge_id: id,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                'Cache-Control': 'no-cache',
+              },
             }
-        })
-        .then(response => 
-        {
-            let userInfo = response.data;
-            setUserInfo(userInfo);
-            AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-            Alert.alert(
-                'Bravo!',
-                response.data.message
-                );
-        })
-        .catch(e => 
-        {
-            alert(e);
-            console.log(e);
-        });
-    }
+          );
+      
+          let updatedUserInfo = response.data;
+          setUserInfo(updatedUserInfo);
+          await AsyncStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+          Alert.alert('Bravo!', response.data.message);
+          return response.data; // Return the response data
+      
+        } catch (error) {
+          alert(error);
+        }
+      };
 
 
     useEffect(() => {
@@ -235,7 +231,7 @@ export const AuthProvider = ({children}) => {
                 register,
                 login,
                 logout,
-                getUserChallenges,
+                checkChallengesAvailability,
                 getUserChallenge,
                 updateUserChallenge
             }}
