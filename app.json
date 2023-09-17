@@ -2,7 +2,7 @@
   "expo": {
     "name": "ISQAT",
     "slug": "isqat",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.isqat.isqat"
     },
     "web": {
       "favicon": "./src/assets/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c4555b37-fef4-4d46-b26c-bc2703623fab"
+      }
     }
   }
 }
