@@ -47,19 +47,19 @@ const ChallengeButtons = ({onPress, text, id, currentChallenge, disabled_propery
 
 const styles = StyleSheet.create({
     button: {
-        width: 50,
-        height: 50,
+        width: "15%",
         borderRadius: 6,
         borderColor: "black",
         margin: 5,
         justifyContent: "center",
         alignItems: "center",
-        textAlign: "center"
+        textAlign: "center",
+        padding: 5
     },
 
     text: {
         color: "black",
-        fontSize: 25
+        fontSize: 20
     }
 });
 
