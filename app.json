@@ -2,7 +2,7 @@
   "expo": {
     "name": "isqat",
     "slug": "isqat",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
@@ -23,8 +23,8 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.isqat_app.isqat", 
-      "versionCode" : 2,
-      "versionName" : "2.0"
+      "versionCode" : 4,
+      "versionName" : "4.0"
     },
     "web": {
       "favicon": "./src/assets/icon.png"
