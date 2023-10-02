@@ -22,7 +22,9 @@
         "foregroundImage": "./src/assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.isqat_app.isqat"
+      "package": "com.isqat_app.isqat", 
+      "versionCode" : 3,
+      "versionName" : "3.0.2"
     },
     "web": {
       "favicon": "./src/assets/icon.png"
